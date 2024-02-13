@@ -1,3 +1,4 @@
+USE bd_r206 ;
 -- SET SQL_SAFE_UPDATES = 0;
 
 DELETE FROM ATravaillePour;

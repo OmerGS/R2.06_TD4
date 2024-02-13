@@ -1,4 +1,4 @@
--- USE bd_r206 ;
+USE bd_r206 ;
 
 DROP TABLE IF EXISTS ATravaillePour;
 DROP TABLE IF EXISTS Avion;
