@@ -169,8 +169,26 @@ WHERE NOT EXISTS
 
 -- Question 5 (1 Tuples)
 
+SELECT nomComp
+FROM Compagnie
+WHERE NOT EXISTS
+    (
+        SELECT idTypeAvion
+        FROM TypeAvion
+        WHERE idTypeAvion LIKE 'A%'
+        EXCEPT
+        SELECT leTypeAvion
+        FROM Avion
+        WHERE compAv = idComp
+    )
+;
 
+/*
+1 Tuple
 
+# nomComp
+'Air France'
+*/
 
 
 ----------------------------------------------------
@@ -195,3 +213,103 @@ WHERE NOT EXISTS
 */
 
 ----------------------------------------------------
+
+-- Question 7 (2)
+
+SELECT COUNT(*)
+FROM Compagnie
+WHERE estLowCost = 1
+;
+
+/*
+# COUNT(*)
+'2'
+*/
+
+SELECT SUM(estLowCost)
+FROM Compagnie
+;
+
+/*
+# SUM(estLowCost)
+'2'
+*/
+
+----------------------------------------------------
+
+-- Question 8 (3 Tuples)
+
+
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 9 (1 Tuple)
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 10 (777)
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 11 (A350)
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 12 (2 Tuples)
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 13 (5 Tuples)
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 14 (1 Tuple)
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 14 (1 Tuple)

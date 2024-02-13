@@ -1,12 +1,20 @@
 use bd_r206;
-SELECT nomComp
+
+SELECT COUNT(*)
 FROM Compagnie
-WHERE NO EXISTS
-    (   
-        SELECT idTypeAvion
-        FROM Avion
-        WHERE idComp = laComp
-        EXCEPT 
-        
-    )
+WHERE estLowCost = 1
 ;
+
+/*
+# COUNT(*)
+'2'
+*/
+
+SELECT SUM(estLowCost)
+FROM Compagnie
+;
+
+/*
+# SUM(estLowCost)
+'2'
+*/
