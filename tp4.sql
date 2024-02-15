@@ -277,12 +277,18 @@ AND nomComp = "Ryanair";
 -- Question 10 ('777')
 
 
-SELECT SUM(nbPassagers)
-FROM Compagnie, Avion, TypeAvion
-WHERE idComp = compAv
-AND 
+SELECT SUM(NbPassagers) AS "Capacité totale de passagers d'Air France"
+FROM Avion
+JOIN TypeAvion t ON leTypeAvion = idTypeAvion
+JOIN Compagnie c ON compAv = idComp
+WHERE nomComp = 'Air France';
 
+/*
+777
 
+# Capacité totale de passagers d'Air France
+'777'
+*/
 
 
 
@@ -356,15 +362,22 @@ HAVING COUNT(unTypeAvion) >= 2;
 
 -- Question 14 (1 Tuple)
 
-SELECT unPilote
-FROM Qualification
-GROUP BY unPilote
-HAVING COUNT(
-        SELECT MAX(unTypeAvion)
-        FROM Qualification
-    )
-;
+SELECT nomPilote, COUNT(unPilote) AS nombreQualifications
+FROM Pilote
+LEFT JOIN Qualification ON idPilote = unPilote
+GROUP BY nomPilote
+HAVING COUNT(unPilote) = (
+    SELECT COUNT(unPilote) AS maxQualifications
+    FROM Qualification
+    GROUP BY unPilote
+    ORDER BY maxQualifications DESC
+    LIMIT 1
+);
 
+/*
+# nomPilote, nombreQualifications
+'Fleurquin', '3'
+*/
 
 
 
@@ -374,20 +387,43 @@ HAVING COUNT(
 
 -- Question 15 (1 Tuple = ('6'))
 
+SELECT nomPilote, COUNT(unPilote) AS nombreQualifications
+FROM Pilote
+LEFT JOIN Qualification ON idPilote = unPilote
+GROUP BY nomPilote
+HAVING COUNT(unPilote) = (
+    SELECT COUNT(unPilote) AS minQualifications
+    FROM Qualification
+    GROUP BY unPilote
+    ORDER BY minQualifications ASC
+    LIMIT 1
+);
 
-
-
-
-
-
+/*
+# nomPilote, nombreQualifications
+'Godin', '1'
+*/
 
 
 ----------------------------------------------------
 
 -- Question 16 (5 Tuple)
 
+SELECT nomComp AS "compNom", AVG(nbHVol) AS "nbHeureMoyenne"
+FROM Compagnie c
+LEFT JOIN Pilote p ON idComp = compPil
+GROUP BY nomComp
+ORDER BY nomComp;
 
 
+/*
+# Nom de la compagnie, Nombre moyen d'heures de vol
+'Air France', '2250.0000'
+'American Airlines', '1950.0000'
+'Corsair International', NULL
+'EasyJet', '450.0000'
+'Ryanair', '450.0000'
+*/
 
 
 
@@ -396,10 +432,47 @@ HAVING COUNT(
 
 -- Question 17 (1 Tuple ('1'))
 
+SELECT nomComp AS "compAvecPlusPlace"
+FROM Compagnie
+JOIN Avion ON idComp = compAv
+JOIN TypeAvion ON leTypeAvion = idTypeAvion
+GROUP BY nomComp
+ORDER BY SUM(nbPassagers) DESC
+LIMIT 1;
 
-
-
+/*
+# compAvecPlusPlace
+'Air France'
+*/
 
 
 
 ----------------------------------------------------
+
+-- Compagnie sans pilote :
+
+SELECT nomComp
+FROM Compagnie
+LEFT JOIN Pilote ON idComp = compPil
+WHERE idPilote IS NULL;
+
+/*
+# nomComp
+'Corsair International'
+*/
+
+
+-- Nombre Myens de Qualification
+
+SELECT AVG(nombreQualifications) AS moyenneQualifications
+FROM (
+    SELECT COUNT(unPilote) AS nombreQualifications
+    FROM Qualification
+    GROUP BY unPilote
+) AS subquery;
+
+/*
+# moyenneQualifications
+'2.0000'
+*/
+
