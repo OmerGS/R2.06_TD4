@@ -237,9 +237,17 @@ FROM Compagnie
 
 ----------------------------------------------------
 
--- Question 8 (3 Tuples)
+-- Question 8 (3 Avions)
 
+SELECT COUNT(idAvion)
+FROM Avion, Compagnie
+WHERE idComp = compAv
+AND nomComp = "Air France";
 
+/*
+# COUNT(idAvion)
+'3'
+*/
 
 
 
@@ -252,18 +260,27 @@ FROM Compagnie
 -- Question 9 (1 Tuple)
 
 
+SELECT COUNT(DISTINCT leTypeAvion)
+FROM Avion, Compagnie
+JOIN idComp = compAv
+AND nomComp = "Ryanair";
 
-
-
-
-
+/*
+# COUNT(DISTINCT leTypeAvion)
+'1'
+*/
 
 
 
 ----------------------------------------------------
 
--- Question 10 (777)
+-- Question 10 ('777')
 
+
+SELECT SUM(nbPassagers)
+FROM Compagnie, Avion, TypeAvion
+WHERE idComp = compAv
+AND 
 
 
 
@@ -274,9 +291,21 @@ FROM Compagnie
 
 -- Question 11 (A350)
 
+SELECT idTypeAvion
+FROM TypeAvion
+WHERE nbPassagers = 
+    (
+        SELECT MAX(nbPassagers)
+        FROM TypeAvion
+    )
+AND idTypeAvion IS NOT NULL
+;
 
 
-
+/*
+# idTypeAvion
+'A350'
+*/
 
 
 
@@ -284,17 +313,58 @@ FROM Compagnie
 
 -- Question 12 (2 Tuples)
 
+SELECT nomComp
+FROM Compagnie, Avion, TypeAvion
+WHERE idComp = compAv AND leTypeAvion = idTypeAvion
+AND nbPassagers = 
+    (
+        SELECT MAX(nbPassagers)
+        FROM TypeAvion
+    )
+;
 
+/*
+2 Tuples
 
-
-
-
+# nomComp
+'Air France'
+'American Airlines'
+*/
 
 ----------------------------------------------------
 
 -- Question 13 (5 Tuples)
 
 
+SELECT unPilote
+FROM Qualification
+GROUP BY unPilote
+HAVING COUNT(unTypeAvion) >= 2;
+
+/*
+5 Tuples
+# unPilote
+'1'
+'2'
+'4'
+'5'
+'7'
+*/
+
+
+----------------------------------------------------
+
+-- Question 14 (1 Tuple)
+
+SELECT unPilote
+FROM Qualification
+GROUP BY unPilote
+HAVING COUNT(
+        SELECT MAX(unTypeAvion)
+        FROM Qualification
+    )
+;
+
 
 
 
@@ -302,7 +372,9 @@ FROM Compagnie
 
 ----------------------------------------------------
 
--- Question 14 (1 Tuple)
+-- Question 15 (1 Tuple = ('6'))
+
+
 
 
 
@@ -312,4 +384,22 @@ FROM Compagnie
 
 ----------------------------------------------------
 
--- Question 14 (1 Tuple)
+-- Question 16 (5 Tuple)
+
+
+
+
+
+
+
+----------------------------------------------------
+
+-- Question 17 (1 Tuple ('1'))
+
+
+
+
+
+
+
+----------------------------------------------------
